@@ -1,0 +1,117 @@
+import { requireSuperAdmin } from '@/lib/auth'
+import { prisma } from '@/lib/prisma'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Building2, Clock, CheckCircle, XCircle } from 'lucide-react'
+
+export default async function AdminDashboard() {
+  await requireSuperAdmin()
+
+  // Fetch dashboard statistics
+  const [
+    totalListings,
+    pendingApprovals,
+    approvedListings,
+    rejectedListings,
+  ] = await Promise.all([
+    prisma.business.count(),
+    prisma.business.count({ where: { status: 'PENDING' } }),
+    prisma.business.count({ where: { status: 'APPROVED' } }),
+    prisma.business.count({ where: { status: 'REJECTED' } }),
+  ])
+
+  const stats = [
+    {
+      title: 'Total Listings',
+      value: totalListings,
+      description: 'All businesses in the system',
+      icon: Building2,
+      color: 'text-blue-600',
+    },
+    {
+      title: 'Pending Approvals',
+      value: pendingApprovals,
+      description: 'Awaiting review',
+      icon: Clock,
+      color: 'text-yellow-600',
+    },
+    {
+      title: 'Approved',
+      value: approvedListings,
+      description: 'Active listings',
+      icon: CheckCircle,
+      color: 'text-green-600',
+    },
+    {
+      title: 'Rejected',
+      value: rejectedListings,
+      description: 'Declined listings',
+      icon: XCircle,
+      color: 'text-red-600',
+    },
+  ]
+
+  return (
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+        <p className="text-gray-600 mt-2">
+          Overview of your business listing platform
+        </p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat) => {
+          const Icon = stat.icon
+          return (
+            <Card key={stat.title}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  {stat.title}
+                </CardTitle>
+                <Icon className={`h-4 w-4 ${stat.color}`} />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stat.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {stat.description}
+                </p>
+              </CardContent>
+            </Card>
+          )
+        })}
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Quick Actions</CardTitle>
+          <CardDescription>
+            Common administrative tasks
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-2">
+            <a
+              href="/admin/businesses"
+              className="p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <h3 className="font-semibold">Review Pending Businesses</h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Approve or reject business listings
+              </p>
+            </a>
+            <a
+              href="/admin/roles"
+              className="p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <h3 className="font-semibold">Manage User Roles</h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Change user permissions and roles
+              </p>
+            </a>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+

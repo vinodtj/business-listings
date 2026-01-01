@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  BUSINESS_OWNER
+  USER
+}
+
+enum BusinessStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?  @db.Text
+  icon        String?  // Icon name or emoji
+  imageUrl    String?  // Category banner/image
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  businesses Business[]
+
+  @@index([slug])
+  @@index([isActive])
+  @@map("categories")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  role      UserRole @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  businesses Business[]
+
+  @@map("users")
+}
+
+model Business {
+  id             String         @id @default(uuid())
+  name           String
+  slug           String         @unique
+  description    String?        @db.Text
+  categoryId     String
+  whatsappNumber String
+  logoUrl        String?
+  mediaGallery   Json?          // Array of image URLs stored as JSON
+  status         BusinessStatus @default(PENDING)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  // Relations
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id])
+  products   Product[]
+  offers     Offer[]
+
+  @@index([slug])
+  @@index([status])
+  @@index([userId])
+  @@index([categoryId])
+  @@map("businesses")
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  businessId  String
+  name        String
+  price       Float
+  imageUrl    String?
+  description String?   @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@map("products")
+}
+
+model Offer {
+  id            String    @id @default(uuid())
+  businessId    String
+  title         String
+  discountDetails String? @db.Text
+  bannerUrl     String?
+  expiryDate    DateTime?
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@index([isActive])
+  @@map("offers")
+}
+

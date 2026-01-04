@@ -14,12 +14,31 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { name, slug, description, categoryId, whatsappNumber, logoUrl, userId } = body
+    const {
+      name,
+      slug,
+      description,
+      categoryId,
+      whatsapp,
+      whatsappNumber, // Keep for backward compatibility
+      address,
+      city,
+      geoLat,
+      geoLng,
+      phone,
+      websiteUrl,
+      socialLinks,
+      rating,
+      logoUrl,
+      mediaGallery,
+      userId,
+    } = body
 
     // Validate required fields
-    if (!name || !slug || !description || !categoryId || !whatsappNumber) {
+    const whatsappValue = whatsapp || whatsappNumber
+    if (!name || !slug || !description || !categoryId || !whatsappValue) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Missing required fields: name, slug, description, categoryId, and whatsapp are required' },
         { status: 400 }
       )
     }
@@ -55,8 +74,18 @@ export async function POST(request: NextRequest) {
         slug,
         description,
         categoryId,
-        whatsappNumber,
+        whatsapp: whatsappValue,
+        whatsappNumber: whatsappValue, // Keep for backward compatibility
+        address: address || null,
+        city: city || null,
+        geoLat: geoLat ? parseFloat(geoLat) : null,
+        geoLng: geoLng ? parseFloat(geoLng) : null,
+        phone: phone || null,
+        websiteUrl: websiteUrl || null,
+        socialLinks: socialLinks || null,
+        rating: rating ? parseFloat(rating) : null,
         logoUrl: logoUrl || null,
+        mediaGallery: mediaGallery && Array.isArray(mediaGallery) && mediaGallery.length > 0 ? mediaGallery : null,
         userId: userId || user.id,
         status: 'PENDING', // New businesses need approval
       },

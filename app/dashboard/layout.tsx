@@ -9,7 +9,13 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode
 }) {
-  const user = await requireAuth()
+  let user
+  try {
+    user = await requireAuth()
+  } catch (error) {
+    // If user doesn't exist in database, redirect to sign in
+    redirect('/auth/signin?error=Please sign in again')
+  }
   
   // If user is not a business owner or admin, redirect to register business
   if (user.role !== 'BUSINESS_OWNER' && user.role !== 'SUPER_ADMIN') {
@@ -28,64 +34,56 @@ export default async function DashboardLayout({
         <nav className="mt-8 px-4">
           <ul className="space-y-2">
             <li>
-              <Link href="/dashboard">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start"
-                  asChild
-                  href="/dashboard"
-                >
-                  <div className="flex items-center gap-3">
-                    <Building2 className="h-4 w-4" />
-                    <span>My Businesses</span>
-                  </div>
-                </Button>
-              </Link>
+              <Button
+                variant="ghost"
+                className="w-full justify-start"
+                asChild
+                href="/dashboard"
+              >
+                <div className="flex items-center gap-3">
+                  <Building2 className="h-4 w-4" />
+                  <span>My Businesses</span>
+                </div>
+              </Button>
             </li>
             <li>
-              <Link href="/register-business">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start"
-                  asChild
-                  href="/register-business"
-                >
-                  <div className="flex items-center gap-3">
-                    <Building2 className="h-4 w-4" />
-                    <span>Register Business</span>
-                  </div>
-                </Button>
-              </Link>
+              <Button
+                variant="ghost"
+                className="w-full justify-start"
+                asChild
+                href="/register-business"
+              >
+                <div className="flex items-center gap-3">
+                  <Building2 className="h-4 w-4" />
+                  <span>Register Business</span>
+                </div>
+              </Button>
             </li>
             <li>
-              <Link href="/dashboard/products">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start"
-                  asChild
-                  href="/dashboard/products"
-                >
-                  <div className="flex items-center gap-3">
-                    <Package className="h-4 w-4" />
-                    <span>My Products</span>
-                  </div>
-                </Button>
-              </Link>
+              <Button
+                variant="ghost"
+                className="w-full justify-start"
+                asChild
+                href="/dashboard/products"
+              >
+                <div className="flex items-center gap-3">
+                  <Package className="h-4 w-4" />
+                  <span>My Products</span>
+                </div>
+              </Button>
             </li>
             <li>
-              <Link href="/dashboard/images">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start"
-                  asChild
-                  href="/dashboard/images"
-                >
-                  <div className="flex items-center gap-3">
-                    <ImageIcon className="h-4 w-4" />
-                    <span>Business Images</span>
-                  </div>
-                </Button>
-              </Link>
+              <Button
+                variant="ghost"
+                className="w-full justify-start"
+                asChild
+                href="/dashboard/images"
+              >
+                <div className="flex items-center gap-3">
+                  <ImageIcon className="h-4 w-4" />
+                  <span>Business Images</span>
+                </div>
+              </Button>
             </li>
           </ul>
         </nav>

@@ -2,6 +2,8 @@ import { prisma } from '@/lib/prisma'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
 import { Building2 } from 'lucide-react'
+import { Footer } from '@/components/Footer'
+import { Header } from '@/components/Header'
 
 export default async function CategoriesPage() {
   const categories = await prisma.category.findMany({
@@ -22,24 +24,8 @@ export default async function CategoriesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
-      {/* Enhanced Header */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-              BusinessHub
-            </Link>
-            <nav className="hidden md:flex gap-8">
-              <Link href="/listings" className="text-gray-700 hover:text-primary transition-colors font-medium">
-                All Listings
-              </Link>
-              <Link href="/categories" className="text-primary font-semibold">
-                Categories
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      {/* Header */}
+      <Header activePage="categories" />
 
       {/* Enhanced Page Header */}
       <div className="bg-gradient-to-br from-primary/5 via-white to-primary/5 border-b border-gray-200/50">
@@ -84,6 +70,9 @@ export default async function CategoriesPage() {
           ))}
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   )
 }

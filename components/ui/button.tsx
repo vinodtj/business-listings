@@ -42,14 +42,30 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild, href, ...props }, ref) => {
-    const Comp = asChild && href ? Link : "button"
-    const buttonProps = asChild && href ? { href } : props
+    if (asChild && href) {
+      // When rendering as Link, only pass anchor-compatible props
+      const linkProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
+        className: cn(buttonVariants({ variant, size, className })),
+        ...(props.onClick && { onClick: props.onClick as any }),
+        ...(props.onMouseEnter && { onMouseEnter: props.onMouseEnter as any }),
+        ...(props.onMouseLeave && { onMouseLeave: props.onMouseLeave as any }),
+        ...(props.id && { id: props.id }),
+        ...(props['aria-label'] && { 'aria-label': props['aria-label'] }),
+        ...(props.tabIndex !== undefined && { tabIndex: props.tabIndex }),
+      }
+      return (
+        <Link
+          href={href}
+          {...linkProps}
+        />
+      )
+    }
     
     return (
-      <Comp
+      <button
         className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...buttonProps}
+        ref={ref as any}
+        {...props}
       />
     )
   }

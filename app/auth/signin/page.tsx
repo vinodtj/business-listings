@@ -1,18 +1,31 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { supabase } from '@/lib/supabase-client'
 
 export default function SignInPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
+
+  useEffect(() => {
+    const message = searchParams.get('message')
+    const error = searchParams.get('error')
+    if (message) {
+      setSuccessMessage(message)
+    }
+    if (error) {
+      setError(error)
+    }
+  }, [searchParams])
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -20,13 +33,42 @@ export default function SignInPage() {
     setError(null)
 
     try {
-      const { error: signInError } = await supabase.auth.signInWithPassword({
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
 
       if (signInError) throw signInError
 
+      // Ensure user record exists in database
+      if (data.user?.email) {
+        try {
+          const userResponse = await fetch('/api/auth/get-user')
+          const userData = await userResponse.json()
+          
+          // If user doesn't exist in database (401 or no user), create it
+          if (userResponse.status === 401 || !userData.user) {
+            const createResponse = await fetch('/api/auth/create-user', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: data.user.email }),
+            })
+            
+            if (!createResponse.ok) {
+              const errorData = await createResponse.json().catch(() => ({}))
+              console.error('Failed to create user record:', errorData)
+              // Don't throw - continue with login anyway
+            }
+          }
+        } catch (userError: any) {
+          console.error('Error checking/creating user:', userError)
+          // Don't block login - continue anyway
+        }
+      }
+
+      // Small delay to ensure session is set
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
       router.push('/dashboard')
       router.refresh()
     } catch (err: any) {
@@ -47,6 +89,11 @@ export default function SignInPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSignIn} className="space-y-4">
+            {successMessage && (
+              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded">
+                {successMessage}
+              </div>
+            )}
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
                 {error}
@@ -67,9 +114,17 @@ export default function SignInPage() {
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                  Password
+                </label>
+                <Link
+                  href="/auth/forgot-password"
+                  className="text-sm text-primary hover:underline font-medium"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <input
                 id="password"
                 type="password"

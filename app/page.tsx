@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Search, TrendingUp, Mail, Facebook, Instagram, Twitter, Settings } from 'lucide-react'
+import { TrendingUp, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { ScrollToTop } from '@/components/ScrollToTop'
+import { Footer } from '@/components/Footer'
+import { Header } from '@/components/Header'
+import { HeroSearch } from '@/components/HeroSearch'
 
 export default async function HomePage() {
   const categories = await prisma.category.findMany({
@@ -16,50 +18,10 @@ export default async function HomePage() {
     where: { status: 'APPROVED' },
   })
 
-  // Get popular categories for footer
-  const popularCategories = await prisma.category.findMany({
-    where: { isActive: true },
-    include: {
-      _count: {
-        select: {
-          businesses: {
-            where: { status: 'APPROVED' },
-          },
-        },
-      },
-    },
-    orderBy: { name: 'asc' },
-    take: 12,
-  })
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-              BusinessHub
-            </Link>
-            <nav className="hidden md:flex items-center gap-8">
-              <Link href="/listings" className="text-gray-700 hover:text-primary transition-colors font-medium">
-                All Listings
-              </Link>
-              <Link href="/categories" className="text-gray-700 hover:text-primary transition-colors font-medium">
-                Categories
-              </Link>
-              <Link href="/auth/signin" className="text-gray-700 hover:text-primary transition-colors font-medium">
-                Sign In
-              </Link>
-              <Link href="/auth/signup">
-                <Button className="bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all">
-                  Sign Up
-                </Button>
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header activePage="home" />
 
       {/* Hero Section */}
       <section className="relative py-20 md:py-28 bg-gradient-to-br from-primary/5 via-white to-primary/5">
@@ -73,27 +35,7 @@ export default async function HomePage() {
             </p>
 
             {/* Enhanced Search Bar */}
-            <div className="max-w-3xl mx-auto">
-              <div className="relative bg-white rounded-2xl shadow-soft border border-gray-200/50 p-2 flex items-center gap-2">
-                <div className="flex-1 flex items-center gap-3 pl-4">
-                  <Search className="text-gray-400 h-5 w-5 flex-shrink-0" />
-                  <input
-                    type="text"
-                    placeholder="Search businesses, categories, or services..."
-                    className="w-full py-3 focus:outline-none text-gray-700 placeholder:text-gray-400"
-                  />
-                </div>
-                <Button size="lg" className="bg-primary hover:bg-primary/90 px-8 shadow-md hover:shadow-lg transition-all">
-                  Search
-                </Button>
-              </div>
-              <div className="flex items-center justify-center gap-4 mt-4 text-sm text-gray-500">
-                <span className="flex items-center gap-1">
-                  <TrendingUp className="h-4 w-4" />
-                  Popular: Restaurants, Shopping, Services
-                </span>
-              </div>
-            </div>
+            <HeroSearch />
           </div>
         </div>
       </section>
@@ -155,176 +97,213 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-gradient-to-r from-primary to-primary/90 text-white py-16 md:py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">List Your Business</h2>
-          <p className="text-primary-foreground/90 mb-8 max-w-2xl mx-auto text-lg">
-            Join thousands of businesses already listed on our platform. Get discovered by customers in your area.
-          </p>
-          <Link href="/register-business">
-            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-gray-50 shadow-lg hover:shadow-xl transition-all px-8">
-              Register Your Business
-            </Button>
-          </Link>
+      {/* New Member Highlights Section */}
+      <section className="min-h-screen bg-background py-16 px-4 overflow-hidden flex items-center justify-center">
+        <div className="w-full max-w-6xl relative h-[700px] md:h-[800px]">
+          {/* Member Cards */}
+          <div className="absolute" style={{ left: 'calc(12%)', opacity: 1 }}>
+            <div style={{ transform: 'translateY(-6.26165px)' }}>
+              <div className="w-20 h-20 md:w-24 md:h-24 perspective-1000 cursor-pointer">
+                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
+                    <img src="/assets/member1-DKtZY21O.jpg" alt="Priya Sharma" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
+                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Priya Sharma</p>
+                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Entrepreneur</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute" style={{ left: 'calc(75%)', opacity: 1 }}>
+            <div style={{ transform: 'translateY(-0.0772509px)' }}>
+              <div className="w-16 h-16 md:w-20 md:h-20 perspective-1000 cursor-pointer">
+                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
+                    <img src="/assets/member2-B2MPxPL0.jpg" alt="Anita Desai" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
+                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Anita Desai</p>
+                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Business Owner</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute" style={{ left: 'calc(38%)', opacity: 1 }}>
+            <div style={{ transform: 'translateY(-7.11906px)' }}>
+              <div className="w-20 h-20 md:w-24 md:h-24 perspective-1000 cursor-pointer">
+                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
+                    <img src="/assets/member3-D7XASURn.jpg" alt="Kavita Patel" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
+                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Kavita Patel</p>
+                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Chef & Founder</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute" style={{ left: 'calc(92%)', opacity: 1 }}>
+            <div style={{ transform: 'translateY(-1.0193px)' }}>
+              <div className="w-16 h-16 md:w-20 md:h-20 perspective-1000 cursor-pointer">
+                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
+                    <img src="/assets/brand1-BGugTgLS.jpg" alt="Crown Bakery" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
+                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Crown Bakery</p>
+                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Artisan Bakery</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute" style={{ left: 'calc(22%)', opacity: 1 }}>
+            <div style={{ transform: 'translateY(-6.06087px)' }}>
+              <div className="w-24 h-24 md:w-28 md:h-28 perspective-1000 cursor-pointer">
+                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
+                    <img src="/assets/member4-9J5RTa-p.jpg" alt="Meera Singh" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
+                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Meera Singh</p>
+                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Fashion Designer</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute" style={{ left: 'calc(58%)', opacity: 1 }}>
+            <div style={{ transform: 'translateY(-0.758027px)' }}>
+              <div className="w-20 h-20 md:w-24 md:h-24 perspective-1000 cursor-pointer">
+                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
+                    <img src="/assets/member5-B123aPcM.jpg" alt="Ritu Agarwal" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
+                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Ritu Agarwal</p>
+                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Tech Founder</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute" style={{ left: 'calc(5%)', opacity: 1 }}>
+            <div style={{ transform: 'translateY(-7.90808px)' }}>
+              <div className="w-16 h-16 md:w-20 md:h-20 perspective-1000 cursor-pointer">
+                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
+                    <img src="/assets/brand2-Bv3P4wg1.jpg" alt="Tasty Tadka" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
+                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Tasty Tadka</p>
+                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Food Service</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute" style={{ left: 'calc(85%)', opacity: 1 }}>
+            <div style={{ transform: 'translateY(-5.76358px)' }}>
+              <div className="w-20 h-20 md:w-24 md:h-24 perspective-1000 cursor-pointer">
+                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
+                    <img src="/assets/member6-CWWJ3VCS.jpg" alt="Sunita Reddy" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
+                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Sunita Reddy</p>
+                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Jewelry Designer</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute" style={{ left: 'calc(45%)', opacity: 1 }}>
+            <div style={{ transform: 'translateY(-7.47972px)' }}>
+              <div className="w-16 h-16 md:w-20 md:h-20 perspective-1000 cursor-pointer">
+                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
+                    <img src="/assets/member1-DKtZY21O.jpg" alt="Neha Gupta" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
+                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Neha Gupta</p>
+                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Consultant</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute" style={{ left: 'calc(98%)', opacity: 1 }}>
+            <div style={{ transform: 'translateY(-5.22724px)' }}>
+              <div className="w-24 h-24 md:w-28 md:h-28 perspective-1000 cursor-pointer">
+                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
+                    <img src="/assets/member2-B2MPxPL0.jpg" alt="Lakshmi Iyer" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
+                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Lakshmi Iyer</p>
+                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Director</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute" style={{ left: 'calc(15%)', opacity: 1 }}>
+            <div style={{ transform: 'translateY(-1.91366px)' }}>
+              <div className="w-20 h-20 md:w-24 md:h-24 perspective-1000 cursor-pointer">
+                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
+                    <img src="/assets/member3-D7XASURn.jpg" alt="Pooja Nair" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
+                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Pooja Nair</p>
+                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Cafe Owner</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Centered Content */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="flex flex-col items-center justify-center text-center pointer-events-auto max-w-md px-4" style={{ opacity: 1, transform: 'none' }}>
+              <h2 className="text-2xl md:text-4xl font-bold mb-4">
+                <span className="text-foreground">New Member </span>
+                <span className="text-primary">Highlights</span>
+              </h2>
+              <h3 className="text-xl md:text-3xl font-bold mb-2">
+                <span className="text-primary">Trusted by Leaders</span>
+              </h3>
+              <h4 className="text-lg md:text-2xl text-accent font-semibold mb-4">From Various Industries</h4>
+              <p className="text-muted-foreground mb-8 text-sm md:text-base">
+                Learn why professionals trust our solutions for end-to-end customer experience
+              </p>
+              <Link href="/register-business">
+                <Button className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-base rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+                  List your business
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-white relative">
-        {/* Newsletter Section */}
-        <div className="bg-slate-800 border-b border-slate-700">
-          <div className="container mx-auto px-4 py-6">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-gray-400" />
-                <span className="text-gray-300">Subscribe to our newsletter</span>
-              </div>
-              <div className="flex items-center gap-4 flex-1 max-w-md">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-                <Button className="bg-red-600 hover:bg-red-700 text-white px-6">
-                  Subscribe
-                </Button>
-              </div>
-              <div className="text-gray-300">
-                Need help? <Link href="/contact" className="font-semibold hover:text-white transition-colors">Contact us</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Footer Content */}
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12">
-            {/* Logo and Description */}
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="relative w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
-                  <Search className="h-6 w-6 text-white" />
-                </div>
-                <span className="text-2xl font-bold">BusinessHub</span>
-              </div>
-              <p className="text-gray-400 mb-6 max-w-sm">
-                Connecting you with reliable local businesses for all your service needs.
-              </p>
-              {/* Social Media Icons */}
-              <div className="flex items-center gap-3">
-                <a href="#" className="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center transition-colors">
-                  <Facebook className="h-5 w-5 text-gray-400" />
-                </a>
-                <a href="#" className="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center transition-colors">
-                  <Instagram className="h-5 w-5 text-gray-400" />
-                </a>
-                <a href="#" className="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center transition-colors">
-                  <Twitter className="h-5 w-5 text-gray-400" />
-                </a>
-              </div>
-            </div>
-
-            {/* Popular Categories */}
-            <div>
-              <h4 className="font-semibold mb-4 text-white text-lg">Popular categories</h4>
-              <ul className="space-y-2 text-gray-400">
-                {popularCategories.slice(0, 12).map((category) => (
-                  <li key={category.id}>
-                    <Link href={`/listings?category=${category.slug}`} className="hover:text-white transition-colors">
-                      {category.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Company Links */}
-            <div>
-              <h4 className="font-semibold mb-4 text-white text-lg">Company</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>
-                  <Link href="/about" className="hover:text-white transition-colors">
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/press" className="hover:text-white transition-colors">
-                    Press & announcements
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/careers" className="hover:text-white transition-colors">
-                    Careers at BusinessHub
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="hover:text-white transition-colors">
-                    Contact us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/terms" className="hover:text-white transition-colors">
-                    Terms of use
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/privacy" className="hover:text-white transition-colors">
-                    Privacy
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Top Cities Section */}
-          <div className="mb-8">
-            <h4 className="font-semibold mb-4 text-white text-lg">Top cities</h4>
-            <div className="flex flex-wrap gap-2">
-              {['New York', 'Chicago', 'Indianapolis', 'Boston', 'Atlanta', 'Cincinnati', 'Los Angeles', 'Dallas', 'Pittsburgh', 'Tampa'].map((city) => (
-                <Link
-                  key={city}
-                  href={`/listings?city=${city.toLowerCase().replace(' ', '-')}`}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-gray-300 hover:text-white transition-colors text-sm"
-                >
-                  {city}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Bottom Section */}
-          <div className="border-t border-slate-800 pt-8">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <p className="text-gray-400 text-sm">
-                © All rights reserved. Made by BusinessHub
-              </p>
-              {/* Payment Methods */}
-              <div className="flex items-center gap-4">
-                <span className="text-gray-400 text-sm mr-2">We accept:</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-12 h-8 bg-white rounded flex items-center justify-center text-xs font-semibold text-blue-600">VISA</div>
-                  <div className="w-12 h-8 bg-gradient-to-r from-red-500 to-orange-500 rounded flex items-center justify-center text-xs font-semibold text-white">MC</div>
-                  <div className="w-12 h-8 bg-blue-500 rounded flex items-center justify-center text-xs font-semibold text-white">PP</div>
-                  <div className="w-12 h-8 bg-white rounded flex items-center justify-center text-xs font-semibold text-gray-700">GP</div>
-                  <div className="w-12 h-8 bg-black rounded flex items-center justify-center text-xs font-semibold text-white">AP</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Vertical Side Buttons */}
-        <div className="fixed right-0 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-2">
-          <button className="w-12 h-20 bg-white shadow-lg rounded-l-lg flex flex-col items-center justify-center gap-1 hover:bg-gray-50 transition-colors group">
-            <Settings className="h-5 w-5 text-gray-600 group-hover:text-primary transition-colors" />
-            <span className="text-[10px] font-semibold text-gray-600 group-hover:text-primary transition-colors writing-vertical-rl">
-              CUSTOMIZE
-            </span>
-          </button>
-          <ScrollToTop />
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

@@ -1,7 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { prisma } from './lib/prisma'
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -63,47 +62,22 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
   // Public routes - no authentication required
-  const publicRoutes = ['/', '/listings', '/business', '/categories', '/auth', '/register-business']
+  const publicRoutes = ['/', '/listings', '/business', '/categories', '/auth', '/register-business', '/blog']
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route))
 
-  // Admin routes - require SUPER_ADMIN role
+  // Admin routes - require SUPER_ADMIN role (role check happens in page)
   const isAdminRoute = pathname.startsWith('/admin')
 
-  // Dashboard routes - require BUSINESS_OWNER role
+  // Dashboard routes - require BUSINESS_OWNER role (role check happens in page)
   const isDashboardRoute = pathname.startsWith('/dashboard')
 
   // If accessing protected routes without session, redirect to home
+  // Note: Role-based access control is handled at the page level using requireAuth(), requireSuperAdmin(), etc.
+  // This is because Prisma doesn't work in Edge Runtime (middleware), so we only check session here
   if ((isAdminRoute || isDashboardRoute) && !session) {
     const redirectUrl = request.nextUrl.clone()
     redirectUrl.pathname = '/'
     return NextResponse.redirect(redirectUrl)
-  }
-
-  // Check role-based access
-  if (session?.user?.email) {
-    try {
-      const user = await prisma.user.findUnique({
-        where: { email: session.user.email },
-      })
-
-      if (user) {
-        // Admin routes - only SUPER_ADMIN can access
-        if (isAdminRoute && user.role !== 'SUPER_ADMIN') {
-          const redirectUrl = request.nextUrl.clone()
-          redirectUrl.pathname = '/'
-          return NextResponse.redirect(redirectUrl)
-        }
-
-        // Dashboard routes - only BUSINESS_OWNER can access
-        if (isDashboardRoute && user.role !== 'BUSINESS_OWNER') {
-          const redirectUrl = request.nextUrl.clone()
-          redirectUrl.pathname = '/'
-          return NextResponse.redirect(redirectUrl)
-        }
-      }
-    } catch (error) {
-      console.error('Middleware error:', error)
-    }
   }
 
   return response

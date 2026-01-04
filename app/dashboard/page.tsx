@@ -6,8 +6,18 @@ import Link from 'next/link'
 import { Building2, Package, Tag, Plus } from 'lucide-react'
 import { redirect } from 'next/navigation'
 
-export default async function DashboardPage() {
-  const user = await requireAuth()
+interface DashboardPageProps {
+  searchParams: { message?: string }
+}
+
+export default async function DashboardPage({ searchParams }: DashboardPageProps) {
+  let user
+  try {
+    user = await requireAuth()
+  } catch (error) {
+    // If user doesn't exist in database, redirect to sign in
+    redirect('/auth/signin?error=Please sign in again')
+  }
   
   // If user is not a business owner or admin, redirect to register business
   if (user.role !== 'BUSINESS_OWNER' && user.role !== 'SUPER_ADMIN') {
@@ -45,6 +55,13 @@ export default async function DashboardPage() {
       </header>
 
       <div className="container mx-auto px-4 py-8">
+        {searchParams?.message && (
+          <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded">
+            {searchParams.message === 'business-updated' 
+              ? 'Business updated successfully! Your changes are pending admin approval.'
+              : searchParams.message}
+          </div>
+        )}
         {businesses.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
@@ -98,6 +115,11 @@ export default async function DashboardPage() {
                       <Link href={`/business/${business.slug}`}>
                         <Button variant="outline" className="w-full">
                           View Business
+                        </Button>
+                      </Link>
+                      <Link href={`/dashboard/business/${business.id}/edit`}>
+                        <Button variant="default" className="w-full">
+                          Edit Business
                         </Button>
                       </Link>
                       <div className="grid grid-cols-2 gap-2">

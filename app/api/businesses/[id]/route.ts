@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
 
+export const runtime = 'nodejs'
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -133,8 +135,8 @@ export async function PATCH(
       // Use relation syntax for category update
       updateData.category = { connect: { id: categoryId } }
     }
-    if (mediaGallery !== undefined) updateData.mediaGallery = mediaGallery
-    if (logoUrl !== undefined) updateData.logoUrl = logoUrl
+    if (mediaGallery !== undefined) updateData.mediaGallery = mediaGallery && Array.isArray(mediaGallery) ? mediaGallery : null
+    if (logoUrl !== undefined) updateData.logoUrl = logoUrl || undefined
     if (description !== undefined) updateData.description = description
     // Update whatsappNumber (the required field)
     // Note: We're only updating whatsappNumber to avoid Prisma errors
@@ -150,7 +152,7 @@ export async function PATCH(
     if (phone !== undefined) updateData.phone = phone
     if (websiteUrl !== undefined) updateData.websiteUrl = websiteUrl
     if (socialLinks !== undefined) updateData.socialLinks = socialLinks
-    if (rating !== undefined) updateData.rating = rating ? parseFloat(rating) : null
+    if (rating !== undefined) updateData.rating = rating ? parseFloat(rating) : undefined
     
     // If status is explicitly provided (by admin), use it
     // Otherwise, if any significant business field is updated, set to PENDING for admin approval

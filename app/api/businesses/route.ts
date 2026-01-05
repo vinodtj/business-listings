@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
 
+export const runtime = 'nodejs'
+
 export async function POST(request: NextRequest) {
   try {
     const user = await getCurrentUser()
@@ -83,9 +85,9 @@ export async function POST(request: NextRequest) {
         phone: phone || null,
         websiteUrl: websiteUrl || null,
         socialLinks: socialLinks || null,
-        rating: rating ? parseFloat(rating) : null,
-        logoUrl: logoUrl || null,
-        mediaGallery: mediaGallery && Array.isArray(mediaGallery) && mediaGallery.length > 0 ? mediaGallery : null,
+        rating: rating ? parseFloat(rating) : undefined,
+        logoUrl: logoUrl || undefined,
+        mediaGallery: mediaGallery && Array.isArray(mediaGallery) ? mediaGallery : null,
         userId: userId || user.id,
         status: 'PENDING', // New businesses need approval
       },

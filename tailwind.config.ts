@@ -58,9 +58,6 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      perspective: {
-        '1000': '1000px',
-      },
       boxShadow: {
         'soft': '0 0.5rem 1.5rem rgba(0, 0, 0, 0.08)',
         'hover': '0 0.75rem 2rem rgba(0, 0, 0, 0.12)',

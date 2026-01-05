@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { TrendingUp, ArrowRight } from 'lucide-react'
+import { TrendingUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
@@ -97,208 +97,23 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* New Member Highlights Section */}
-      <section className="min-h-screen bg-background py-16 px-4 overflow-hidden flex items-center justify-center">
-        <div className="w-full max-w-6xl relative h-[700px] md:h-[800px]">
-          {/* Member Cards */}
-          <div className="absolute" style={{ left: 'calc(12%)', opacity: 1 }}>
-            <div style={{ transform: 'translateY(-6.26165px)' }}>
-              <div className="w-20 h-20 md:w-24 md:h-24 perspective-1000 cursor-pointer">
-                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
-                    <img src="/assets/member1-DKtZY21O.jpg" alt="Priya Sharma" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
-                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Priya Sharma</p>
-                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Entrepreneur</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="absolute" style={{ left: 'calc(75%)', opacity: 1 }}>
-            <div style={{ transform: 'translateY(-0.0772509px)' }}>
-              <div className="w-16 h-16 md:w-20 md:h-20 perspective-1000 cursor-pointer">
-                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
-                    <img src="/assets/member2-B2MPxPL0.jpg" alt="Anita Desai" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
-                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Anita Desai</p>
-                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Business Owner</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="absolute" style={{ left: 'calc(38%)', opacity: 1 }}>
-            <div style={{ transform: 'translateY(-7.11906px)' }}>
-              <div className="w-20 h-20 md:w-24 md:h-24 perspective-1000 cursor-pointer">
-                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
-                    <img src="/assets/member3-D7XASURn.jpg" alt="Kavita Patel" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
-                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Kavita Patel</p>
-                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Chef & Founder</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="absolute" style={{ left: 'calc(92%)', opacity: 1 }}>
-            <div style={{ transform: 'translateY(-1.0193px)' }}>
-              <div className="w-16 h-16 md:w-20 md:h-20 perspective-1000 cursor-pointer">
-                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
-                    <img src="/assets/brand1-BGugTgLS.jpg" alt="Crown Bakery" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
-                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Crown Bakery</p>
-                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Artisan Bakery</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="absolute" style={{ left: 'calc(22%)', opacity: 1 }}>
-            <div style={{ transform: 'translateY(-6.06087px)' }}>
-              <div className="w-24 h-24 md:w-28 md:h-28 perspective-1000 cursor-pointer">
-                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
-                    <img src="/assets/member4-9J5RTa-p.jpg" alt="Meera Singh" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
-                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Meera Singh</p>
-                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Fashion Designer</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="absolute" style={{ left: 'calc(58%)', opacity: 1 }}>
-            <div style={{ transform: 'translateY(-0.758027px)' }}>
-              <div className="w-20 h-20 md:w-24 md:h-24 perspective-1000 cursor-pointer">
-                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
-                    <img src="/assets/member5-B123aPcM.jpg" alt="Ritu Agarwal" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
-                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Ritu Agarwal</p>
-                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Tech Founder</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="absolute" style={{ left: 'calc(5%)', opacity: 1 }}>
-            <div style={{ transform: 'translateY(-7.90808px)' }}>
-              <div className="w-16 h-16 md:w-20 md:h-20 perspective-1000 cursor-pointer">
-                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
-                    <img src="/assets/brand2-Bv3P4wg1.jpg" alt="Tasty Tadka" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
-                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Tasty Tadka</p>
-                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Food Service</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="absolute" style={{ left: 'calc(85%)', opacity: 1 }}>
-            <div style={{ transform: 'translateY(-5.76358px)' }}>
-              <div className="w-20 h-20 md:w-24 md:h-24 perspective-1000 cursor-pointer">
-                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
-                    <img src="/assets/member6-CWWJ3VCS.jpg" alt="Sunita Reddy" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
-                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Sunita Reddy</p>
-                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Jewelry Designer</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="absolute" style={{ left: 'calc(45%)', opacity: 1 }}>
-            <div style={{ transform: 'translateY(-7.47972px)' }}>
-              <div className="w-16 h-16 md:w-20 md:h-20 perspective-1000 cursor-pointer">
-                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
-                    <img src="/assets/member1-DKtZY21O.jpg" alt="Neha Gupta" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
-                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Neha Gupta</p>
-                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Consultant</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="absolute" style={{ left: 'calc(98%)', opacity: 1 }}>
-            <div style={{ transform: 'translateY(-5.22724px)' }}>
-              <div className="w-24 h-24 md:w-28 md:h-28 perspective-1000 cursor-pointer">
-                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
-                    <img src="/assets/member2-B2MPxPL0.jpg" alt="Lakshmi Iyer" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
-                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Lakshmi Iyer</p>
-                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Director</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="absolute" style={{ left: 'calc(15%)', opacity: 1 }}>
-            <div style={{ transform: 'translateY(-1.91366px)' }}>
-              <div className="w-20 h-20 md:w-24 md:h-24 perspective-1000 cursor-pointer">
-                <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: 'none' }}>
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg ring-4 ring-card ring-offset-2 ring-offset-background backface-hidden">
-                    <img src="/assets/member3-D7XASURn.jpg" alt="Pooja Nair" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-primary shadow-lg ring-4 ring-primary/30 ring-offset-2 ring-offset-background backface-hidden flex flex-col items-center justify-center p-2 text-center" style={{ transform: 'rotateY(180deg)' }}>
-                    <p className="text-primary-foreground text-xs md:text-sm font-semibold leading-tight">Pooja Nair</p>
-                    <p className="text-primary-foreground/80 text-[10px] md:text-xs mt-1">Cafe Owner</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Centered Content */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="flex flex-col items-center justify-center text-center pointer-events-auto max-w-md px-4" style={{ opacity: 1, transform: 'none' }}>
-              <h2 className="text-2xl md:text-4xl font-bold mb-4">
-                <span className="text-foreground">New Member </span>
-                <span className="text-primary">Highlights</span>
-              </h2>
-              <h3 className="text-xl md:text-3xl font-bold mb-2">
-                <span className="text-primary">Trusted by Leaders</span>
-              </h3>
-              <h4 className="text-lg md:text-2xl text-accent font-semibold mb-4">From Various Industries</h4>
-              <p className="text-muted-foreground mb-8 text-sm md:text-base">
-                Learn why professionals trust our solutions for end-to-end customer experience
-              </p>
-              <Link href="/register-business">
-                <Button className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-base rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-                  List your business
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-            </div>
-          </div>
+      {/* CTA Section */}
+      <section 
+        className="bg-gradient-to-r from-primary to-primary/90 text-white py-16 md:py-20"
+        style={{
+          height: '450px'
+        }}
+      >
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">List Your Business</h2>
+          <p className="text-primary-foreground/90 mb-8 max-w-2xl mx-auto text-lg">
+            Join thousands of businesses already listed on our platform. Get discovered by customers in your area.
+          </p>
+          <Link href="/register-business">
+            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-gray-50 shadow-lg hover:shadow-xl transition-all px-8">
+              Register Your Business
+            </Button>
+          </Link>
         </div>
       </section>
 

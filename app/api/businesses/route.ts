@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
         socialLinks: socialLinks || null,
         rating: rating ? parseFloat(rating) : undefined,
         logoUrl: logoUrl || undefined,
-        mediaGallery: mediaGallery && Array.isArray(mediaGallery) ? mediaGallery : null,
+        mediaGallery: mediaGallery && Array.isArray(mediaGallery) ? mediaGallery : undefined,
         userId: userId || user.id,
         status: 'PENDING', // New businesses need approval
       },

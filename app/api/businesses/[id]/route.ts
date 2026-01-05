@@ -135,7 +135,7 @@ export async function PATCH(
       // Use relation syntax for category update
       updateData.category = { connect: { id: categoryId } }
     }
-    if (mediaGallery !== undefined) updateData.mediaGallery = mediaGallery && Array.isArray(mediaGallery) ? mediaGallery : null
+    if (mediaGallery !== undefined && Array.isArray(mediaGallery)) updateData.mediaGallery = mediaGallery
     if (logoUrl !== undefined) updateData.logoUrl = logoUrl || undefined
     if (description !== undefined) updateData.description = description
     // Update whatsappNumber (the required field)

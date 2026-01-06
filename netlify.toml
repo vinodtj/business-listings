@@ -4,11 +4,9 @@
 
 [build.environment]
   NODE_VERSION = "18.17.0"
-  NPM_FLAGS = "--legacy-peer-deps"
 
 # Functions configuration for API routes
 [functions]
-  node_bundler = "esbuild"
   external_node_modules = ["@prisma/client", "@prisma/engines"]
 
 [[plugins]]
@@ -21,11 +19,4 @@
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-
-# Redirects (if needed)
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-  force = false
 

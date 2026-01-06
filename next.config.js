@@ -8,8 +8,8 @@ const nextConfig = {
       },
     ],
   },
-  // Netlify-specific optimizations
-  output: 'standalone',
+  // Remove standalone output - not compatible with Netlify Next.js plugin
+  // output: 'standalone', // Disabled for Netlify compatibility
   poweredByHeader: false,
   compress: true,
   experimental: {

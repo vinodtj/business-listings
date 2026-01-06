@@ -13,14 +13,14 @@ export const supabase = supabaseUrl && supabaseAnonKey
 // Server-side client with service role key
 export const supabaseAdmin = supabaseUrl && supabaseServiceRoleKey
   ? createClient(
-      supabaseUrl,
+  supabaseUrl,
       supabaseServiceRoleKey,
-      {
-        auth: {
-          autoRefreshToken: false,
-          persistSession: false
-        }
-      }
-    )
+  {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  }
+)
   : null
 

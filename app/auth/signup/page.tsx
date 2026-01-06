@@ -38,6 +38,14 @@ export default function SignUpPage() {
         if (signUpError.message.includes('Invalid API key')) {
           throw new Error('Invalid Supabase API key. Please check your .env file and ensure NEXT_PUBLIC_SUPABASE_ANON_KEY is set correctly.')
         }
+        // Handle leaked password errors
+        if (signUpError.message.includes('password') && (signUpError.message.includes('compromised') || signUpError.message.includes('leaked') || signUpError.message.includes('pwned'))) {
+          throw new Error('This password has been found in a data breach. Please choose a different, stronger password.')
+        }
+        // Handle weak password errors
+        if (signUpError.message.includes('password') && signUpError.message.includes('weak')) {
+          throw new Error('Password is too weak. Please use a stronger password with a mix of letters, numbers, and special characters.')
+        }
         throw signUpError
       }
 

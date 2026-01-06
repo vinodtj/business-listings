@@ -53,7 +53,17 @@ export default function ResetPasswordPage() {
         password: password,
       })
 
-      if (updateError) throw updateError
+      if (updateError) {
+        // Handle leaked password errors
+        if (updateError.message.includes('password') && (updateError.message.includes('compromised') || updateError.message.includes('leaked') || updateError.message.includes('pwned'))) {
+          throw new Error('This password has been found in a data breach. Please choose a different, stronger password.')
+        }
+        // Handle weak password errors
+        if (updateError.message.includes('password') && updateError.message.includes('weak')) {
+          throw new Error('Password is too weak. Please use a stronger password with a mix of letters, numbers, and special characters.')
+        }
+        throw updateError
+      }
 
       setSuccess(true)
       

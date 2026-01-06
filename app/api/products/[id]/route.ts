@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
 
 export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 
 export async function DELETE(
   request: NextRequest,

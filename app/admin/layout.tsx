@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { LayoutDashboard, Building2, Users, LogOut } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminLayout({
   children,
 }: {

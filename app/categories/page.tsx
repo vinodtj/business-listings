@@ -5,6 +5,8 @@ import { Building2 } from 'lucide-react'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 
+export const dynamic = 'force-dynamic'
+
 export default async function CategoriesPage() {
   const categories = await prisma.category.findMany({
     where: { isActive: true },

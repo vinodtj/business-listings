@@ -4,22 +4,39 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-// Check if DATABASE_URL is set
-if (!process.env.DATABASE_URL) {
-  console.error('❌ DATABASE_URL is not set in environment variables')
-}
-
-// For Supabase, use connection pooling (port 6543) instead of direct connection (port 5432)
-// If your DATABASE_URL uses port 5432, update it to use port 6543 for better connection handling
 const databaseUrl = process.env.DATABASE_URL
 
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
+// Only create Prisma client if DATABASE_URL is available
+// This prevents build-time errors when DATABASE_URL is not set
+function getPrismaClient(): PrismaClient {
+  if (!databaseUrl) {
+    // Return a proxy that throws a helpful error when accessed
+    return new Proxy({} as PrismaClient, {
+      get() {
+        throw new Error(
+          'Prisma Client is not initialized. DATABASE_URL environment variable is not set. ' +
+          'Please set DATABASE_URL in your environment variables.'
+        )
+      },
+    }) as PrismaClient
+  }
+
+  if (globalForPrisma.prisma) {
+    return globalForPrisma.prisma
+  }
+
+  const client = new PrismaClient({
     log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
   })
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+  if (process.env.NODE_ENV !== 'production') {
+    globalForPrisma.prisma = client
+  }
+
+  return client
+}
+
+export const prisma = getPrismaClient()
 
 // Note: We don't call $connect() here because:
 // 1. Prisma connects lazily when first query is made

@@ -13,6 +13,8 @@ interface ListingsPageProps {
   searchParams: { category?: string; search?: string }
 }
 
+export const dynamic = 'force-dynamic'
+
 export default async function ListingsPage({ searchParams }: ListingsPageProps) {
   const categorySlug = searchParams.category
   const searchQuery = searchParams.search

@@ -7,6 +7,8 @@ import { CheckCircle, XCircle, Eye } from 'lucide-react'
 import Link from 'next/link'
 import { DeleteBusinessButton } from '@/components/admin/DeleteBusinessButton'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminBusinessesPage() {
   await requireSuperAdmin()
 

@@ -7,6 +7,8 @@ import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { HeroSearch } from '@/components/HeroSearch'
 
+export const dynamic = 'force-dynamic'
+
 export default async function HomePage() {
   const categories = await prisma.category.findMany({
     where: { isActive: true },

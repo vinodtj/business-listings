@@ -8,6 +8,8 @@ import Link from 'next/link'
 import { DeleteProductButton } from '@/components/admin/DeleteProductButton'
 import { redirect } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+
 export default async function ProductsPage() {
   const user = await requireAuth()
   

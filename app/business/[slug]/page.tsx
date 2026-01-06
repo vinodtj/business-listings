@@ -16,6 +16,8 @@ interface BusinessPageProps {
   }
 }
 
+export const dynamic = 'force-dynamic'
+
 export default async function BusinessPage({ params }: BusinessPageProps) {
   const business = await prisma.business.findUnique({
     where: { slug: params.slug },

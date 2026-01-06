@@ -4,6 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "18.17.0"
+  PRISMA_SKIP_POSTINSTALL_GENERATE = "false"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

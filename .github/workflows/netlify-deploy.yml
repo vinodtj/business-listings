@@ -1,0 +1,38 @@
+name: Netlify Deploy Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.17.0'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci --legacy-peer-deps
+    
+    - name: Generate Prisma Client
+      run: npx prisma generate
+    
+    - name: Build Next.js
+      run: npm run build
+    
+    - name: Check build output
+      run: |
+        if [ ! -d ".next" ]; then
+          echo "❌ Build failed - .next directory not found"
+          exit 1
+        fi
+        echo "✅ Build successful - .next directory exists"
+

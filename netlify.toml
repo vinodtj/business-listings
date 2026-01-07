@@ -1,14 +1,12 @@
 # Netlify Configuration - Minimal Strategy (Strategy 3)
-# This is the absolute minimal configuration for maximum compatibility
+# Using Node.js 22.x (LTS) as recommended by Netlify
 
 [build]
-  command = "nvm use 18.17.0 && npm install && npx prisma generate && npm run build"
+  command = "npm install && npx prisma generate && npm run build"
   publish = ".next"
 
 [build.environment]
-  NODE_VERSION = "18.17.0"
-  # Force Node 18 (override system default)
-  NVM_NODEJS_ORG_MIRROR = "https://nodejs.org/dist"
+  NODE_VERSION = "22"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

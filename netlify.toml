@@ -1,30 +1,12 @@
-# Netlify Configuration - Optimized for Next.js + Prisma
-# This is the minimal, working configuration
+# Netlify Configuration - Minimal Strategy (Strategy 3)
+# This is the absolute minimal configuration for maximum compatibility
 
 [build]
-  command = "npm ci && npx prisma generate && npm run build"
+  command = "npm install && npx prisma generate && npm run build"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "18.17.0"
-  NPM_FLAGS = "--legacy-peer-deps"
-  # Skip Prisma postinstall to avoid double generation
-  PRISMA_SKIP_POSTINSTALL_GENERATE = "true"
 
-# Functions configuration
-[functions]
-  external_node_modules = ["@prisma/client", "@prisma/engines"]
-  node_bundler = "esbuild"
-
-# Next.js Plugin - REQUIRED for Next.js apps
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-# Security headers
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"

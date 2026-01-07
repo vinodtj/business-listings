@@ -2,11 +2,13 @@
 # This is the absolute minimal configuration for maximum compatibility
 
 [build]
-  command = "npm install && npx prisma generate && npm run build"
+  command = "nvm use 18.17.0 && npm install && npx prisma generate && npm run build"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "18.17.0"
+  # Force Node 18 (override system default)
+  NVM_NODEJS_ORG_MIRROR = "https://nodejs.org/dist"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

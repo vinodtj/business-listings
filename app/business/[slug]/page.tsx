@@ -180,7 +180,7 @@ export default async function BusinessPage({ params }: BusinessPageProps) {
             <section className="mb-8">
               <h2 className="text-xl font-bold text-gray-900 mb-4">Opening Hours</h2>
               <div className="space-y-2 text-sm">
-                {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => (
+                {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day: string) => (
                   <div key={day} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
                     <span className="text-gray-600">{day}</span>
                     <span className="text-gray-900 font-medium">10:00 AM - 11:30 PM</span>

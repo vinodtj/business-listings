@@ -324,7 +324,7 @@ export default function EditBusinessPage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="">Select a category</option>
-                  {categories.map((category) => (
+                  {categories.map((category: any) => (
                     <option key={category.id} value={category.id}>
                       {category.icon} {category.name}
                     </option>

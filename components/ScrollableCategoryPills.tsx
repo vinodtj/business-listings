@@ -106,7 +106,7 @@ export function ScrollableCategoryPills({ categories, activeCategorySlug }: Scro
       >
         All Categories
       </Link>
-      {categories.map((category) => (
+      {categories.map((category: any) => (
         <Link
           key={category.id}
           href={`/listings?category=${category.slug}`}

@@ -1,7 +1,14 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { prisma } from './prisma'
-import { UserRole } from '@prisma/client'
+
+// Define UserRole enum locally to avoid Prisma dependency issues
+export enum UserRole {
+  USER = 'USER',
+  BUSINESS_OWNER = 'BUSINESS_OWNER',
+  ADMIN = 'ADMIN',
+  SUPER_ADMIN = 'SUPER_ADMIN',
+}
 
 export async function getServerSession() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL

@@ -62,7 +62,7 @@ export default async function ProductsPage() {
         </Card>
       ) : (
         <div className="space-y-6">
-          {businesses.map((business) => (
+          {businesses.map((business: any) => (
             <Card key={business.id}>
               <CardHeader>
                 <div className="flex items-center justify-between">
@@ -88,7 +88,7 @@ export default async function ProductsPage() {
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {business.products.map((product) => (
+                    {business.products.map((product: any) => (
                       <Card key={product.id} className="relative">
                         {product.imageUrl && (
                           <div className="relative h-48 w-full bg-gray-200 rounded-t-lg overflow-hidden">

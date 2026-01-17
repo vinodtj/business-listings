@@ -81,7 +81,7 @@ export default async function ListingsPage({ searchParams }: ListingsPageProps) 
             {searchQuery
               ? `Search Results for "${searchQuery}"`
               : categorySlug
-              ? categories.find((c) => c.slug === categorySlug)?.name || 'Business Listings'
+              ? categories.find((c: any) => c.slug === categorySlug)?.name || 'Business Listings'
               : 'All Business Listings'}
           </h1>
           {/* Horizontal Scrollable Category Pills */}
@@ -119,7 +119,7 @@ export default async function ListingsPage({ searchParams }: ListingsPageProps) 
               </Card>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {businesses.map((business) => {
+                {businesses.map((business: any) => {
                   const mediaGallery = business.mediaGallery as string[] | null
                   const images = mediaGallery && mediaGallery.length > 0 
                     ? mediaGallery 

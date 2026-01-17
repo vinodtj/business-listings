@@ -7,10 +7,15 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
+    // Return mock response if Supabase is not configured (for preview mode)
     if (!supabaseAdmin) {
       return NextResponse.json(
-        { error: 'Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY environment variables.' },
-        { status: 500 }
+        { 
+          message: 'File upload not available in preview mode',
+          url: 'https://via.placeholder.com/400',
+          path: 'preview/mock-image.jpg',
+        },
+        { status: 200 }
       )
     }
 

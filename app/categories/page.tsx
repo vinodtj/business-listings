@@ -42,7 +42,7 @@ export default async function CategoriesPage() {
       {/* Enhanced Categories Grid */}
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categories.map((category) => (
+          {categories.map((category: any) => (
             <Link key={category.id} href={`/listings?category=${category.slug}`}>
               <Card className="group hover:shadow-hover transition-all duration-300 cursor-pointer h-full border-2 border-transparent hover:border-primary/20 hover:-translate-y-1">
                 <CardHeader>

@@ -22,7 +22,7 @@ export default async function AdminDashboard() {
       approved,
       rejected,
     ] = await Promise.all([
-      prisma.business.count().catch((err) => {
+      prisma.business.count().catch((err: any) => {
         if (err.message?.includes('database server') || err.message?.includes('Can\'t reach')) {
           hasConnectionError = true
         }

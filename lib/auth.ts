@@ -51,26 +51,22 @@ export async function getServerSession() {
 }
 
 export async function getCurrentUser() {
-  // Return null if DATABASE_URL is not set (e.g., during build)
-  if (!process.env.DATABASE_URL) {
-    return null
-  }
-
   const session = await getServerSession()
   if (!session?.user?.email) return null
 
-  try {
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
+  // Use mock data - return demo user for preview
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  })
+  
+  // If user doesn't exist, return demo user for preview
+  if (!user) {
+    return await prisma.user.findUnique({
+      where: { email: 'demo@example.com' },
     })
-    return user
-  } catch (error) {
-    // If Prisma is not initialized (e.g., during build), return null
-    if (error instanceof Error && error.message.includes('DATABASE_URL')) {
-      return null
-    }
-    throw error
   }
+  
+  return user
 }
 
 export async function requireAuth() {

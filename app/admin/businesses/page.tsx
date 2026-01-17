@@ -32,9 +32,9 @@ export default async function AdminBusinessesPage() {
 
   const stats = {
     total: businesses.length,
-    pending: businesses.filter((b) => b.status === 'PENDING').length,
-    approved: businesses.filter((b) => b.status === 'APPROVED').length,
-    rejected: businesses.filter((b) => b.status === 'REJECTED').length,
+    pending: businesses.filter((b: any) => b.status === 'PENDING').length,
+    approved: businesses.filter((b: any) => b.status === 'APPROVED').length,
+    rejected: businesses.filter((b: any) => b.status === 'REJECTED').length,
   }
 
   return (
@@ -110,7 +110,7 @@ export default async function AdminBusinessesPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {businesses.map((business) => (
+                  {businesses.map((business: any) => (
                     <tr key={business.id} className="border-b hover:bg-gray-50">
                       <td className="p-4">
                         <div>

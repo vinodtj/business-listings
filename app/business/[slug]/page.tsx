@@ -219,7 +219,7 @@ export default async function BusinessPage({ params }: BusinessPageProps) {
               <h2 className="text-2xl font-bold text-gray-900">Special Offers</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {business.offers.map((offer) => (
+              {business.offers.map((offer: any) => (
                 <Card key={offer.id} className="overflow-hidden border-2 hover:border-primary/30 transition-all hover:shadow-lg">
                   {offer.bannerUrl && (
                     <div className="relative h-48 w-full overflow-hidden">
@@ -255,7 +255,7 @@ export default async function BusinessPage({ params }: BusinessPageProps) {
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Services</h2>
             <div className="space-y-4">
-              {business.products.map((product) => (
+              {business.products.map((product: any) => (
                 <div
                   key={product.id}
                   className="border-b border-gray-200 pb-4 last:border-b-0"

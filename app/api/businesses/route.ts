@@ -85,10 +85,12 @@ export async function POST(request: NextRequest) {
         geoLng: geoLng ? parseFloat(geoLng) : null,
         phone: phone || null,
         websiteUrl: websiteUrl || null,
-        socialLinks: socialLinks || null,
-        rating: rating ? parseFloat(rating) : undefined,
-        logoUrl: logoUrl || undefined,
-        mediaGallery: mediaGallery && Array.isArray(mediaGallery) ? mediaGallery : undefined,
+        ...(socialLinks ? { socialLinks } : {}),
+        ...(rating ? { rating: parseFloat(rating) } : {}),
+        ...(logoUrl ? { logoUrl } : {}),
+        ...(mediaGallery && Array.isArray(mediaGallery) && mediaGallery.length > 0 
+          ? { mediaGallery } 
+          : {}),
         userId: userId || user.id,
         status: 'PENDING', // New businesses need approval
       },

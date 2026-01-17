@@ -70,30 +70,41 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Build data object, only including optional JSON fields if they have values
+    const businessData: any = {
+      name,
+      slug,
+      description,
+      categoryId,
+      whatsapp: whatsappValue,
+      whatsappNumber: whatsappValue, // Keep for backward compatibility
+      address: address || null,
+      city: city || null,
+      geoLat: geoLat ? parseFloat(geoLat) : null,
+      geoLng: geoLng ? parseFloat(geoLng) : null,
+      phone: phone || null,
+      websiteUrl: websiteUrl || null,
+      userId: userId || user.id,
+      status: 'PENDING', // New businesses need approval
+    }
+
+    // Only add optional JSON fields if they have valid values
+    if (socialLinks) {
+      businessData.socialLinks = socialLinks
+    }
+    if (rating) {
+      businessData.rating = parseFloat(rating)
+    }
+    if (logoUrl) {
+      businessData.logoUrl = logoUrl
+    }
+    if (mediaGallery && Array.isArray(mediaGallery) && mediaGallery.length > 0) {
+      businessData.mediaGallery = mediaGallery
+    }
+
     // Create business
     const business = await prisma.business.create({
-      data: {
-        name,
-        slug,
-        description,
-        categoryId,
-        whatsapp: whatsappValue,
-        whatsappNumber: whatsappValue, // Keep for backward compatibility
-        address: address || null,
-        city: city || null,
-        geoLat: geoLat ? parseFloat(geoLat) : null,
-        geoLng: geoLng ? parseFloat(geoLng) : null,
-        phone: phone || null,
-        websiteUrl: websiteUrl || null,
-        ...(socialLinks ? { socialLinks } : {}),
-        ...(rating ? { rating: parseFloat(rating) } : {}),
-        ...(logoUrl ? { logoUrl } : {}),
-        ...(mediaGallery && Array.isArray(mediaGallery) && mediaGallery.length > 0 
-          ? { mediaGallery } 
-          : {}),
-        userId: userId || user.id,
-        status: 'PENDING', // New businesses need approval
-      },
+      data: businessData,
       include: {
         category: true,
       },

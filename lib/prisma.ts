@@ -6,12 +6,39 @@ const globalForPrisma = globalThis as unknown as {
 
 const databaseUrl = process.env.DATABASE_URL
 
-function getPrismaClient() {
-  // Require DATABASE_URL to be set - no more mock data fallback
+// Check if we're in build phase (Next.js static analysis)
+const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build' || 
+                     (typeof process !== 'undefined' && process.env.NODE_ENV === 'production' && !process.env.VERCEL_ENV && !databaseUrl)
+
+let prismaClientInstance: PrismaClient | null = null
+
+function getPrismaClient(): PrismaClient {
+  // During build phase without DATABASE_URL, return a no-op client to allow static analysis
+  // The real error will occur at runtime when the API route is actually called
+  if (isBuildPhase && !databaseUrl) {
+    // Return a proxy that throws helpful errors when methods are called
+    return new Proxy({} as PrismaClient, {
+      get(_target, prop: string | symbol) {
+        if (typeof prop === 'string' && prop in PrismaClient.prototype) {
+          return () => {
+            throw new Error(
+              `DATABASE_URL environment variable is not set. ` +
+              `This is required for Prisma operations. ` +
+              `Please set DATABASE_URL in your Vercel project settings → Environment Variables. ` +
+              `Get your connection string from: Supabase Dashboard → Settings → Database → Connection string`
+            )
+          }
+        }
+        return undefined
+      },
+    }) as PrismaClient
+  }
+
+  // Require DATABASE_URL to be set at runtime
   if (!databaseUrl) {
     throw new Error(
       'DATABASE_URL environment variable is not set. ' +
-      'Please set DATABASE_URL in your .env file to connect to Supabase. ' +
+      'Please set DATABASE_URL in your .env file (local) or Vercel environment variables (deployment). ' +
       'Get your connection string from: Supabase Dashboard → Settings → Database → Connection string'
     )
   }
@@ -19,6 +46,11 @@ function getPrismaClient() {
   // If Prisma client already exists in global scope (hot reload), reuse it
   if (globalForPrisma.prisma) {
     return globalForPrisma.prisma
+  }
+
+  // If client already initialized, return it
+  if (prismaClientInstance) {
+    return prismaClientInstance
   }
 
   // Create new Prisma client with connection string
@@ -31,6 +63,7 @@ function getPrismaClient() {
     globalForPrisma.prisma = client
   }
 
+  prismaClientInstance = client
   return client
 }
 

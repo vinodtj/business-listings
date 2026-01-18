@@ -264,21 +264,6 @@ After successful deployment:
 
 ---
 
-## 🆚 Vercel vs Netlify
-
-| Feature | Vercel | Netlify |
-|---------|--------|---------|
-| Next.js Support | ✅ Native (made by Vercel) | ✅ Plugin required |
-| Zero Config | ✅ Yes | ⚠️ Requires config |
-| Preview Deploys | ✅ Automatic | ✅ Automatic |
-| Build Speed | ⚡ Fast | 🐢 Slower |
-| Prisma Support | ✅ Excellent | ⚠️ Needs setup |
-| Free Tier | ✅ Generous | ✅ Generous |
-
-**Recommendation:** Use **Vercel** for Next.js projects - it's optimized for it!
-
----
-
 ## 🔗 Useful Links
 
 - [Vercel Documentation](https://vercel.com/docs)

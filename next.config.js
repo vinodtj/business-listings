@@ -8,8 +8,7 @@ const nextConfig = {
       },
     ],
   },
-  // Remove standalone output - not compatible with Netlify Next.js plugin
-  // output: 'standalone', // Disabled for Netlify compatibility
+  // output: 'standalone', // Optional: Use for Docker deployments
   poweredByHeader: false,
   compress: true,
   experimental: {

@@ -20,8 +20,8 @@ export default function SignUpPage() {
     setError(null)
 
     try {
-      // Check if Supabase is properly configured
-      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      // Check if Supabase client is properly configured
+      if (!supabase || !supabase.auth) {
         throw new Error('Supabase is not configured. Please check your environment variables.')
       }
 

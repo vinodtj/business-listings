@@ -9,7 +9,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:netlify": "prisma generate && next build",
     "build:safe": "prisma generate || echo 'Prisma generate failed, continuing...' && next build",
     "start": "next start",
     "lint": "next lint",

@@ -61,17 +61,10 @@ export async function getCurrentUser() {
   const session = await getServerSession()
   if (!session?.user?.email) return null
 
-  // Use mock data - return demo user for preview
+  // Use real database - find user by email
   const user = await prisma.user.findUnique({
     where: { email: session.user.email },
   })
-  
-  // If user doesn't exist, return demo user for preview
-  if (!user) {
-    return await prisma.user.findUnique({
-      where: { email: 'demo@example.com' },
-    })
-  }
   
   return user
 }

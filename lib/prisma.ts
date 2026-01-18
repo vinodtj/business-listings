@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { mockPrisma } from './mock-data'
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
@@ -8,10 +7,13 @@ const globalForPrisma = globalThis as unknown as {
 const databaseUrl = process.env.DATABASE_URL
 
 function getPrismaClient() {
-  // If DATABASE_URL is not set, use mock data (for preview mode)
+  // Require DATABASE_URL to be set - no more mock data fallback
   if (!databaseUrl) {
-    console.warn('⚠️ DATABASE_URL not set - using mock data. Set DATABASE_URL to connect to Supabase.')
-    return mockPrisma as any
+    throw new Error(
+      'DATABASE_URL environment variable is not set. ' +
+      'Please set DATABASE_URL in your .env file to connect to Supabase. ' +
+      'Get your connection string from: Supabase Dashboard → Settings → Database → Connection string'
+    )
   }
 
   // If Prisma client already exists in global scope (hot reload), reuse it
